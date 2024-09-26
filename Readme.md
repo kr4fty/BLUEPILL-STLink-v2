@@ -1,4 +1,4 @@
-# BLUEPILL STLINK V2 PROGRAMMER README
+# BLUEPILL STLINK V2 PROGRAMMER
 Make a Stlink V2 programmer/debugger for STM8/STM32 using a STM32F103 MCU
 
 Sometimes one needs a SWD programmer/debugger for a project but a commercial ‘board’ such as a Discovery, Nucleo or $5 - $20 Chinese clone programmer isn’t available, so it can be handy to build your own or use a cheap spare Blue Pill type board to make one.
