@@ -114,3 +114,37 @@ st-util
 2020-10-28T14:30:42 INFO common.c: F0xx: 8 KiB SRAM, 64 KiB flash in at least 1 KiB pages.
 2020-10-28T14:30:42 INFO gdb-server.c: Listening at *:4242...
 ```
+# How To Unlock STM32F0x/STM32F1x Using OpenOCD
+
+If you have received an error message indicating that the flash memory cannot be erased and that the device is blocked
+```
+> st-flash --reset write firmware.bin 0x8000000
+st-flash 1.8.0
+INFO common_flash.c: Attempting to write 24400 (0x5f50) bytes to stm32 address: 134217728 (0x8000000)
+ERROR common_flash.c: Flash memory is write protected
+WARN common_flash.c: Failed to erase_flash_page(0x8000000) == -1
+ERROR common_flash.c: Failed to erase the flash prior to writing stlink_fwrite_flash() == -1
+```
+
+**Attention for cloned chips!!!**
+
+ -  If you have a clone chip of the stm32, add the following near the top of stm32f1x.cfg (before the first If – statement):
+
+	 ``
+	sudo  nano  /usr/share/openocd/scripts/target/stm32f1x.cfg
+	``
+
+	``
+	 set CPUTAPID 0
+	``
+
+	 and then proceed normally
+
+You should proceed with the following command
+
+```
+> openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "init" -c "halt" -c "stm32f1x unlock 0" -c "reset halt" -c "exit"
+```
+
+After that, you need to physically remove power from the device in order for the reset to take effect.
+
